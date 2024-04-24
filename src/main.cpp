@@ -50,6 +50,9 @@
 // #include "AutoConnect.h"
 #include "tmr.h"
 
+#define TASK_SEND TASK_MILLISECOND * 10
+#define MASTER 1
+
 using namespace std;
 using namespace modbus;
 /*------------------------------------------------------------------------------*/
@@ -85,9 +88,6 @@ void MeshToSerialCallback(uint32_t from, String &msg);
 void SlaveReceivedCallback(uint32_t from, String &msg);
 void sendMasterMessage(void);
 void sendSlaveMessage(void);
-
-#define TASK_SEND TASK_MILLISECOND * 10
-#define MASTER 1
 
 // Task taskSendSlaveMessage( TASK_MILLISECOND * 2, TASK_FOREVER, &sendSlaveMessage);
 // Task taskSendMasterMessage( TASK_MILLISECOND * 2, TASK_FOREVER, &sendMasterMessage);
