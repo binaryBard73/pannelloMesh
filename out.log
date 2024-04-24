@@ -1,0 +1,8 @@
+Adding ESP-IDF tools to PATH...
+Checking if Python packages are up to date...
+The following Python requirements are not satisfied:
+pyserial>=3.0
+pyparsing>=2.0.3,<2.4.0
+pyelftools>=0.22
+To install the missing packages, please run "/home/christian/esp/esp-idf/install.sh"
+Alternatively, you can run "/home/christian/anaconda3/bin/python -m pip install --user -r /home/christian/esp/esp-idf/requirements.txt" for resolving the issue.
