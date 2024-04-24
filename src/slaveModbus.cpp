@@ -121,11 +121,12 @@ bool SerialMesh::serialToMeshSlave(void)
 
 bool SerialMesh::bridgeMeshToSerial(void)
 {
-	// Serial.printf("Dati da inviare a seriale:\n");
-	// for (int i = 0; i < SerialMesh::rxlen; i++) {
-	// 	Serial.printf("%02X ", SerialMesh::rxSerial[i]);
-	// }
-	// Serial.printf("\n");
+	Log(DEBUG, "Dati da inviare a seriale:\n");
+	for (int i = 0; i < SerialMesh::rxlen; i++) {
+		Log(DEBUG, "%02X ", SerialMesh::rxSerial[i]);
+	}
+	Log(DEBUG, "\n");
+
 	SerialMesh::pchar = (uint8_t *)SerialMesh::rxSerial;
 	Serial2.write(SerialMesh::pchar, SerialMesh::rxlen);
 	Serial2.flush();
@@ -157,16 +158,19 @@ bool SerialMesh::bridgeSerialToMesh(void)
 
 		if (len < sizeof(SerialMesh::txSerial)) {
 			SerialMesh::txlen = len;
-			// Serial.printf("len dati seriali ricevuti: %d\n",
-			// 	      SerialMesh::txlen);
+
+			Log(DEBUG, "len dati seriali ricevuti: %d\n",
+			    SerialMesh::txlen);
 
 			Serial2.readBytes(SerialMesh::txSerial, len);
 			SerialMesh::txSerial[len] = '\0';
-			// Serial.printf("Dati da inviare:\n");
-			// for (int i = 0; i < len; i++) {
-			// 	Serial.printf("%02X ", SerialMesh::txSerial[i]);
-			// }
-			// Serial.printf("\n");
+
+			Log(DEBUG, "Dati da inviare:\n");
+			for (int i = 0; i < len; i++) {
+				Log(DEBUG, "%02X ", SerialMesh::txSerial[i]);
+			}
+			Log(DEBUG, "\n");
+
 			SerialMesh::comm_timeout =
 				set_ttimeout_sec_M(MESH_MBUS_TIMEOUT);
 			SerialMesh::busy = true;
