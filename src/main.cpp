@@ -87,6 +87,7 @@ void sendMasterMessage(void);
 void sendSlaveMessage(void);
 
 #define TASK_SEND TASK_MILLISECOND * 10
+#define MASTER 1
 
 // Task taskSendSlaveMessage( TASK_MILLISECOND * 2, TASK_FOREVER, &sendSlaveMessage);
 // Task taskSendMasterMessage( TASK_MILLISECOND * 2, TASK_FOREVER, &sendMasterMessage);
@@ -98,6 +99,12 @@ Task taskSendReady(TASK_SEND, TASK_FOREVER, &sendMessage);
 void sendMessage(void)
 {
 	std::list<uint32_t> nodes = mesh.getNodeList(false);
+
+#ifdef MASTER
+	if ((nodes.size() > 0) && (digitalRead(SCLK) == LOW)) {
+		mbus.sendReady();
+	}
+#endif
 
 	if (mbus.bridgeSerialToMesh() == true) {
 		Log(DEBUG, "Dati da inviare formato stringa:\n");
@@ -170,6 +177,11 @@ void newConnectionCallback(uint32_t nodeId)
 	Log(DEBUG, "Trovato nuovo nodo: %u\n", nodeId);
 
 	std::list<uint32_t> nodes = mesh.getNodeList(false);
+#ifdef MASTER
+	if (digitalRead(SCLK) == LOW) {
+		mbus.sendReady();
+	}
+#endif
 
 	mbus.mesh_map.push_back(nodeId);
 }
